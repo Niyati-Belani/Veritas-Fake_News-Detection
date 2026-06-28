@@ -2,7 +2,7 @@
 
 > A high-velocity, intelligence-driven verification engine designed to combat digital misinformation in real-time through deep NLP feature processing and automated fact-checking pipelines.
 
-[![Live Demo](https://img.shields.io/badge/DEMO-PREVIEW-8b5cf6?style=for-the-badge&logo=vercel&logoColor=white)](https://your-live-website-link.com)
+[![Live Demo](https://img.shields.io/badge/DEMO-PREVIEW-8b5cf6?style=for-the-badge&logo=vercel&logoColor=white)](https://niyati-belani-veritas-core-engine.hf.space)
 [![MongoDB Atlas](https://img.shields.io/badge/Database-MongoDB%20Atlas-10b981?style=for-the-badge&logo=mongodb&logoColor=white)](https://mongodb.com)
 [![Python Core](https://img.shields.io/badge/Engine-Python%203.10-06b6d4?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 
