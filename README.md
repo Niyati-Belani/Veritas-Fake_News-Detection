@@ -65,7 +65,7 @@ In the modern digital information ecosystem, weaponized misinformation spreads s
 | **Visual Analytics** | Chart.js Embedded Animation Loop |
 | **Backend Engine** | Flask Micro-framework Architecture |
 | **Cloud Storage** | MongoDB Atlas Cluster (NoSQL Document Store) |
-| **Object Modeling** | MongoEngine ODM Layer |
+| **Object Modeling** | DistilBert |
 
 ---
 
