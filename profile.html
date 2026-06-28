@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veritas | Account Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" rel="stylesheet" />
+    <style>
+        /* --- MODERN PREMIUM PROFILE STYLING --- */
+        .profile-wrapper {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 0 24px;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        /* Avatar Interactive Styles */
+        .avatar-upload-wrapper {
+            position: relative;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        .avatar-gradient {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00d9ff, #00ffaa);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: #0c1022;
+            overflow: hidden; /* Keeps custom image perfectly round */
+            position: relative;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .avatar-gradient img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* The hidden camera hover overlay */
+        .avatar-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .avatar-upload-wrapper:hover .avatar-gradient {
+            border-color: #00ffaa;
+            transform: scale(1.05);
+        }
+
+        .avatar-upload-wrapper:hover .avatar-overlay {
+            opacity: 1;
+        }
+
+        .user-info h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin: 0 0 8px 0;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        .user-info p {
+            color: rgba(255, 255, 255, 0.6);
+            margin: 0;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .role-badge {
+            background: rgba(0, 217, 255, 0.1);
+            color: #00d9ff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            margin-left: 10px;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .profile-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 35px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .profile-card:hover {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ffffff;
+        }
+
+        .card-title span { color: #00ffaa; }
+
+        .data-group { margin-bottom: 20px; }
+
+        .data-label {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .data-value {
+            font-size: 1.05rem;
+            color: #ffffff;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 14px 18px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-modern {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            margin-bottom: 15px;
+            text-decoration: none;
+        }
+
+        .btn-danger {
+            background: rgba(255, 77, 109, 0.1);
+            color: #ff4d6d;
+            border: 1px solid rgba(255, 77, 109, 0.3);
+        }
+
+        .btn-danger:hover { background: rgba(255, 77, 109, 0.2); }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); }
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav">
+        <a href="/scanner" class="veritas-brand-link">
+            <div class="veritas-logo-mark"><div class="veritas-fluid-node"></div></div>
+            <span class="veritas-title-string">Veritas</span>
+            <span class="veritas-core-badge">Core Engine</span>
+        </a>
+        <div class="nav-links">
+            <a href="/guide">Guide</a>
+            <a href="/scanner">Scanner</a>
+            <a href="/analytics">Metrics</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+            <a href="/profile" class="nav-profile-icon active" title="Profile">
+                <span class="material-symbols-outlined">account_circle</span>
+            </a>
+            <a href="/logout" class="btn-nav-auth">Logout</a>
+        </div>
+    </nav>
+
+    <div class="profile-wrapper">
+        
+        <div class="profile-header">
+            
+            <div class="avatar-upload-wrapper" onclick="document.getElementById('avatarInput').click()" title="Change Profile Picture">
+                <div class="avatar-gradient">
+                    
+                    {% if user_data.avatar_filename %}
+                        <img src="{{ url_for('static', filename='avatars/' + user_data.avatar_filename) }}" alt="Profile Photo">
+                    {% else %}
+                        <span class="material-symbols-outlined">person</span>
+                    {% endif %}
+                    
+                    <div class="avatar-overlay">
+                        <span class="material-symbols-outlined" style="color: #ffffff; font-size: 1.8rem;">photo_camera</span>
+                    </div>
+                </div>
+            </div>
+
+            <form id="avatarForm" action="/upload_avatar" method="POST" enctype="multipart/form-data" style="display: none;">
+                <input type="file" id="avatarInput" name="avatar" accept="image/*" onchange="document.getElementById('avatarForm').submit()">
+            </form>
+
+            <div class="user-info">
+                <h1>{{ user_data.name }}</h1>
+                <p>
+                    <span class="material-symbols-outlined" style="font-size: 1.2rem;">mail</span>
+                    {{ user_data.email }}
+                    <span class="role-badge">Verified User</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="profile-grid">
+            
+            <div class="profile-card">
+                <div class="card-title">
+                    <span class="material-symbols-outlined">manage_accounts</span>
+                    Account Overview
+                </div>
+                
+                <div class="data-group">
+                    <div class="data-label">Account Created</div>
+                    <div class="data-value">{{ user_data.created_at.strftime('%B %d, %Y') }}</div>
+                </div>
+
+                <div class="data-group">
+                    <div class="data-label">Total Investigations Run</div>
+                    <div class="data-value" style="color: #00d9ff; font-weight: 700;">{{ total_scans }} Scans</div>
+                </div>
+            </div>
+
+            <div class="profile-card">
+                <div class="card-title">
+                    <span class="material-symbols-outlined">security</span>
+                    Data & Privacy
+                </div>
+
+                <p style="color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-bottom: 25px; line-height: 1.5;">
+                    Manage your intelligence footprint. Clearing your history will permanently delete all scans associated with your account from the Veritas database.
+                </p>
+
+                <form action="/clear_predictions" method="GET">
+                    <button type="submit" class="btn-modern btn-danger">
+                        <span class="material-symbols-outlined">delete_forever</span>
+                        Clear Scan History
+                    </button>
+                </form>
+
+                <a href="/scanner" class="btn-modern btn-secondary">
+                    <span class="material-symbols-outlined">radar</span>
+                    Return to Scanner
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

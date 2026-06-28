@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" rel="stylesheet" />
+<title>
+    Veritas | Neural Stream Scanner
+</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        .guide-hero {
+            text-align: center;
+            padding: 80px 20px 50px;
+            position: relative;
+        }
+
+        .guide-hero::before {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(0,255,170,0.08);
+            filter: blur(100px);
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+        }
+
+        .guide-title {
+            font-size: 4rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #00ffaa, #00bfff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .guide-subtitle {
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: auto;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .guide-grid {
+            width: 90%;
+            max-width: 1300px;
+            margin: 50px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .guide-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            padding: 35px;
+            transition: 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(14px);
+        }
+
+        .guide-card::before {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: rgba(0,255,170,0.08);
+            border-radius: 50%;
+            top: -60px;
+            right: -60px;
+        }
+
+        .guide-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0,255,170,0.4);
+            box-shadow: 0 0 30px rgba(0,255,170,0.15);
+        }
+
+        .guide-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .guide-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .guide-card p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            font-size: 0.96rem;
+        }
+
+        .highlight {
+            color: #00ffaa;
+            font-weight: 600;
+        }
+
+        .timeline-section {
+            width: 90%;
+            max-width: 1200px;
+            margin: 80px auto;
+        }
+
+        .timeline-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+        }
+
+        .timeline {
+            position: relative;
+            margin-left: 20px;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 20px;
+            top: 0;
+            width: 3px;
+            height: 100%;
+            background: rgba(0,255,170,0.3);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 70px;
+            margin-bottom: 50px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 8px;
+            top: 5px;
+            width: 25px;
+            height: 25px;
+            background: #00ffaa;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #00ffaa;
+        }
+
+        .timeline-content {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 25px;
+            border-radius: 18px;
+            backdrop-filter: blur(10px);
+        }
+
+        .timeline-content h4 {
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .timeline-content p {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        @media(max-width: 768px) {
+
+            .guide-title {
+                font-size: 2.5rem;
+            }
+
+            .timeline-item {
+                padding-left: 60px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="top-nav">
+      <a href="/scanner" class="veritas-brand-link">
+    <div class="veritas-logo-mark">
+        <div class="veritas-fluid-node"></div>
+    </div>
+    
+    <span class="veritas-title-string">Veritas</span>
+    <span class="veritas-core-badge">Core Engine</span>
+</a>
+
+        <div class="nav-links">
+            <a href="/guide" class="active">Guide</a>
+            <a href="/scanner">Scanner</a>
+            <a href="/analytics">Metrics</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+            <a href="/profile" class="nav-profile-icon" title="Operative Dossier">
+                <span class="material-symbols-outlined">account_circle</span>
+            </a>
+            <a href="/login" class="btn-nav-auth">Logout</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+
+<section class="guide-hero">
+
+    <h1 class="guide-title">
+        VERITAS FIELD GUIDE
+    </h1>
+
+    <p class="guide-subtitle">
+        Welcome to VERITAS — your intelligent misinformation detection assistant.
+        Whether you're verifying breaking news, checking suspicious articles,
+        or scanning uploaded documents, VERITAS helps you uncover hidden manipulation
+        patterns using advanced AI-powered analysis.
+
+        Simply paste text, upload a document, or provide a news URL,
+        and let the system investigate the credibility behind the content
+        in seconds.
+    </p>
+
+</section>
+
+<!-- CARDS SECTION -->
+
+<section class="guide-grid">
+
+    <div class="guide-card">
+
+        <div class="guide-icon">🌐</div>
+
+        <h3>Smart Text & URL Investigation</h3>
+
+        <p>
+            Have a suspicious headline or viral article?
+            Paste the content directly into the
+            <span class="highlight">Scanner</span>
+            or provide a live website link.
+
+            VERITAS automatically extracts the important article content,
+            ignores unnecessary clutter, and analyzes the writing style,
+            emotional tone, and linguistic patterns to identify possible misinformation.
+        </p>
+
+    </div>
+
+    <div class="guide-card">
+
+        <div class="guide-icon">📄</div>
+
+        <h3>Document Threat Analysis</h3>
+
+        <p>
+            Upload <span class="highlight">PDF</span> or
+            <span class="highlight">TXT</span> files
+            for deep offline analysis.
+
+            The platform intelligently extracts text from your documents,
+            cleans unwanted noise, and prepares optimized AI-readable data
+            for accurate fake news detection — even from lengthy reports or articles.
+        </p>
+
+    </div>
+
+    <div class="guide-card">
+
+        <div class="guide-icon">📊</div>
+
+        <h3>Explainable AI Insights</h3>
+
+        <p>
+            VERITAS doesn’t just give predictions —
+            it explains <span class="highlight">why</span> the content appears suspicious.
+
+            The system highlights emotionally manipulative phrases,
+            misleading wording patterns, and influential keywords
+            that contribute to the final AI decision,
+            making the analysis transparent and easier to trust.
+        </p>
+
+    </div>
+
+</section>
+
+<!-- TIMELINE -->
+
+<section class="timeline-section">
+
+    <h2 class="timeline-title">
+        How VERITAS Works
+    </h2>
+
+    <div class="timeline">
+
+        <div class="timeline-item">
+
+            <div class="timeline-dot"></div>
+
+            <div class="timeline-content">
+                <h4>Step 01 — Content Submission</h4>
+
+                <p>
+                    Start by submitting article text,
+                    a news website URL,
+                    or uploading a PDF/TXT document
+                    through the scanner interface.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="timeline-item">
+
+            <div class="timeline-dot"></div>
+
+            <div class="timeline-content">
+                <h4>Step 02 — Intelligent Preprocessing</h4>
+
+                <p>
+                    The AI engine cleans and organizes the content,
+                    removes unnecessary noise,
+                    tokenizes important words,
+                    and prepares structured input for deep language analysis.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="timeline-item">
+
+            <div class="timeline-dot"></div>
+
+            <div class="timeline-content">
+                <h4>Step 03 — AI Credibility Detection</h4>
+
+                <p>
+                    DistilBERT-powered NLP models examine semantic meaning,
+                    emotional intensity,
+                    writing behavior,
+                    and suspicious linguistic signals
+                    to estimate whether the information is real or fake.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="timeline-item">
+
+            <div class="timeline-dot"></div>
+
+            <div class="timeline-content">
+                <h4>Step 04 — Interactive Results & Insights</h4>
+
+                <p>
+                    VERITAS generates a detailed prediction report with
+                    confidence scores,
+                    explainable AI indicators,
+                    visual analytics,
+                    and keyword-level insights
+                    so users can better understand the reasoning behind the prediction.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+</body>
+</html>

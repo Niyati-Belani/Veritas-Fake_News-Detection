@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veritas | Neural Stream Scanner</title>
+
+    <style>
+        /* --- LOGIN FOOTER SPACING FIX --- */
+        .login-footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .login-footer a {
+            color: #00d9ff;
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 5px;
+            transition: color 0.2s ease;
+        }
+
+        .login-footer a:hover {
+            color: #00ffaa;
+        }
+
+        .login-security-status {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            letter-spacing: 1.5px;
+            color: rgba(255, 255, 255, 0.4);
+            font-family: monospace;
+        }
+
+        .login-security-status span {
+            color: #00ffaa;
+            font-weight: 700;
+        }
+
+        .password-label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .password-label-row a {
+            color: #00ffaa;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .password-label-row a:hover {
+            opacity: 0.7;
+        }
+
+        /* --- VISUAL CAPTCHA STYLING --- */
+        .captcha-wrapper {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .captcha-canvas-container {
+            background: #060816;
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-radius: 8px;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #captchaCanvas {
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-refresh {
+            background: rgba(0, 217, 255, 0.1);
+            color: #00d9ff;
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-radius: 8px;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-refresh:hover {
+            background: #00d9ff;
+            color: #060816;
+        }
+    </style>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0"
+        rel="stylesheet" />
+</head>
+
+<body>
+
+    <nav class="top-nav">
+        <a href="/scanner" class="veritas-brand-link">
+            <div class="veritas-logo-mark">
+                <div class="veritas-fluid-node"></div>
+            </div>
+            <span class="veritas-title-string">Veritas</span>
+            <span class="veritas-core-badge">Core Engine</span>
+        </a>
+        <div class="nav-links">
+            <a href="/signup" class="btn-nav-auth">Create Account</a>
+        </div>
+    </nav>
+
+    <section class="login-wrapper">
+
+        <div class="login-info">
+            <div class="login-badge">SECURE AUTHENTICATION NODE</div>
+            <h1 class="login-title">Access The <span>VERITAS core engine</span></h1>
+            <p class="login-description">
+                Authenticate to access the enterprise AI misinformation detection infrastructure powered by explainable
+                machine learning, sentiment analysis, and advanced intelligence monitoring.
+            </p>
+
+            <div class="login-stats">
+                <div class="login-stat-card glass-card">
+                    <h2>99.4%</h2>
+                    <p>Detection Accuracy</p>
+                </div>
+                <div class="login-stat-card glass-card">
+                    <h2>24/7</h2>
+                    <p>Threat Monitoring</p>
+                </div>
+                <div class="login-stat-card glass-card">
+                    <h2>AI</h2>
+                    <p>Explainable Predictions</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel auth-panel login-panel">
+            <div class="login-top-line"></div>
+
+            <div class="login-header">
+                <div class="login-icon">
+                    <span class="material-symbols-outlined">lock</span>
+                </div>
+                <h2>[ AUTHENTICATION ]</h2>
+                <p>Authorized personnel only. Enter credentials to access the VERITAS secure network.</p>
+            </div>
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="flash-message">
+                {{ messages[0] }}
+            </div>
+            {% endif %}
+            {% endwith %}
+
+            <form action="/login" method="POST" id="loginForm">
+
+                <div class="input-group">
+                    <label>[ EMAIL ADDRESS ]</label>
+                    <input type="email" name="email" required placeholder="admin@veritas-system.com">
+                </div>
+
+                <div class="input-group">
+                    <div class="password-label-row">
+                        <label>[ PASSCODE ]</label>
+                        <a href="#">Forgot Passcode?</a>
+                    </div>
+                    <input type="password" name="password" required placeholder="••••••••">
+                </div>
+
+                <div class="input-group">
+                    <label>[ VISUAL VERIFICATION ]</label>
+
+                    <div class="captcha-wrapper">
+                        <div class="captcha-canvas-container">
+                            <canvas id="captchaCanvas" width="140" height="45" title="Click to refresh"></canvas>
+                        </div>
+
+                        <button type="button" class="btn-refresh" onclick="generateVisualCaptcha()"
+                            title="Regenerate Image">
+                            <span class="material-symbols-outlined">refresh</span>
+                        </button>
+
+                        <input type="text" id="captcha-input" required placeholder="Type exact characters"
+                            style="flex-grow: 1; margin: 0; letter-spacing: 1px;">
+                    </div>
+
+                    <div id="captcha-error"
+                        style="color: #ff4d6d; font-size: 0.85rem; margin-top: 8px; display: none; font-family: monospace;">
+                        [!] Authorization Failed: Visual verification incorrect.
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit login-btn" style="margin-top: 15px;">
+                    Access System <span>→</span>
+                </button>
+            </form>
+
+            <div class="login-footer">
+                <p>New to VERITAS? <a href="/signup">Create Account</a></p>
+            </div>
+
+            <div class="login-security-status">
+                CONNECTION : <span>SECURE 256-BIT AES</span>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let currentCaptchaText = "";
+
+        // Function to generate random alphanumeric string (removed confusing chars like 1, l, I, 0, O)
+        function generateRandomString(length) {
+            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
+            let result = "";
+            for (let i = 0; i < length; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+
+        // Function to draw the distorted image on the Canvas
+        function generateVisualCaptcha() {
+            const canvas = document.getElementById('captchaCanvas');
+            const ctx = canvas.getContext('2d');
+
+            // Clear the canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Set dark background
+            ctx.fillStyle = "#0c1022";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Generate 5 random characters
+            currentCaptchaText = generateRandomString(5);
+
+            // Add background noise (random dots)
+            for (let i = 0; i < 50; i++) {
+                ctx.fillStyle = Math.random() > 0.5 ? '#00d9ff' : '#00ffaa';
+                ctx.globalAlpha = 0.3;
+                ctx.beginPath();
+                ctx.arc(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * 2, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+
+            // Add interference lines
+            for (let i = 0; i < 4; i++) {
+                ctx.strokeStyle = Math.random() > 0.5 ? 'rgba(0, 217, 255, 0.5)' : 'rgba(0, 255, 170, 0.5)';
+                ctx.lineWidth = Math.random() * 2 + 1;
+                ctx.beginPath();
+                ctx.moveTo(Math.random() * canvas.width, Math.random() * canvas.height);
+                ctx.lineTo(Math.random() * canvas.width, Math.random() * canvas.height);
+                ctx.stroke();
+            }
+
+            // Draw the text with distortion
+            ctx.globalAlpha = 1;
+            ctx.font = "bold 26px monospace";
+            ctx.textBaseline = "middle";
+
+            for (let i = 0; i < currentCaptchaText.length; i++) {
+                const char = currentCaptchaText[i];
+                // Space the letters out
+                const x = 20 + (i * 22);
+                // Jitter the Y position slightly
+                const y = (canvas.height / 2) + (Math.random() * 10 - 5);
+                // Rotate the letter slightly
+                const angle = (Math.random() * 0.6) - 0.3;
+
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(angle);
+
+                // Randomly assign your theme colors to the text
+                ctx.fillStyle = Math.random() > 0.5 ? '#00d9ff' : '#00ffaa';
+
+                ctx.fillText(char, 0, 0);
+                ctx.restore();
+            }
+
+            // Clear the input field automatically when it regenerates
+            document.getElementById('captcha-input').value = '';
+            document.getElementById('captcha-error').style.display = 'none';
+            document.getElementById('captcha-input').style.borderColor = 'rgba(255, 255, 255, 0.1)';
+        }
+
+        // Initialize CAPTCHA on page load
+        window.onload = generateVisualCaptcha;
+
+        // Allow clicking the canvas itself to refresh it
+        document.getElementById('captchaCanvas').addEventListener('click', generateVisualCaptcha);
+
+        // Intercept form submission
+        document.getElementById('loginForm').addEventListener('submit', function (event) {
+            const userInput = document.getElementById('captcha-input').value.trim();
+            const actualText = currentCaptchaText; // Strict case-sensitive checking
+            const errorMsg = document.getElementById('captcha-error');
+
+            if (userInput !== actualText) {
+                // If wrong, stop form submission
+                event.preventDefault();
+
+                // Show error message
+                errorMsg.style.display = 'block';
+                document.getElementById('captcha-input').style.borderColor = '#ff4d6d';
+
+                // Generate a new CAPTCHA challenge
+                generateVisualCaptcha();
+            }
+        });
+    </script>
+</body>
+
+</html>

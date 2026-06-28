@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+    Veritas | Neural Stream Scanner
+</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* =========================================================
+           DYNAMIC MODAL OVERLAY ARCHITECTURE
+        ========================================================= */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(6, 8, 22, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-window {
+            background: #0c1022;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 650px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+
+        .modal-overlay.active .modal-window {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        .modal-close-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-muted);
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: 0.2s ease;
+        }
+
+        .modal-close-btn:hover {
+            background: rgba(255, 77, 109, 0.1);
+            border-color: rgba(255, 77, 109, 0.3);
+            color: var(--danger);
+        }
+
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-log-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .modal-log-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            margin-top: 10px;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding-top: 8px;
+        }
+
+        /* Make stat-cards look clickable */
+        .interactive-card {
+            cursor: pointer;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .interactive-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="top-nav">
+        <a href="/scanner" class="veritas-brand-link">
+            <div class="veritas-logo-mark">
+                <div class="veritas-fluid-node"></div>
+            </div>
+
+            <span class="veritas-title-string">Veritas</span>
+            <span class="veritas-core-badge">Core Engine</span>
+        </a>
+        <div class="nav-links">
+            <a href="/guide">Guide</a>
+            <a href="/scanner">Scanner</a>
+            <a href="/analytics" class="active">Metrics</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+            <a href="/profile" class="nav-profile-icon" title="Operative Dossier">
+                <span class="material-symbols-outlined">account_circle</span>
+            </a>
+            <a href="/logout" class="btn-nav-auth">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width: 1240px; margin: 40px auto; padding: 0 24px; box-sizing: border-box;">
+
+        <header class="app-header" style="text-align: left; margin-bottom: 40px;">
+            <div class="scanner-badge">LIVE SYSTEM ANALYTICS</div>
+            <h1 style="margin-top: 20px; font-weight: 800; font-size: 2.8rem; letter-spacing: -0.5px;">
+                Intelligence <span class="highlight">Monitoring</span> Dashboard
+            </h1>
+            <p class="subtitle" style="color: var(--text-muted); margin-top: 8px; font-size: 1.05rem;">
+                Monitor prediction activity, misinformation trends, model performance, and real-time detection insights
+                generated by the VERITAS AI engine.
+            </p>
+        </header>
+
+        <div class="dashboard-grid">
+            <div class="stat-card interactive-card" id="cardFake">
+                <div class="stat-label">Suspicious Articles</div>
+                <div class="stat-value danger">{{ fake_count }}</div>
+                <span style="font-size: 0.72rem; color: #ff4d6d; font-weight: 600; letter-spacing: 0.5px;">SYSTEM
+                    ANOMALIES LOGGED</span>
+            </div>
+            <div class="stat-card interactive-card" id="cardReal">
+                <div class="stat-label">Verified Articles</div>
+                <div class="stat-value success">{{ real_count }}</div>
+                <span style="font-size: 0.72rem; color: #00ffaa; font-weight: 600; letter-spacing: 0.5px;">INTEGRITY
+                    VERIFICATIONS</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Investigations</div>
+                <div class="stat-value" style="color: #ffffff;">{{ fake_count + real_count }}</div>
+                <span
+                    style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600; letter-spacing: 0.5px;">INFERENCE
+                    LIFETIME TOTAL</span>
+            </div>
+        </div>
+
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 30px; margin-top: 30px;">
+
+            <div class="panel"
+                style="padding: 30px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between;">
+                <div class="panel-header">
+                    <h2 style="font-weight: 700; font-size: 1.4rem;">Detection Overview</h2>
+                    <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 4px;">Comparative distribution
+                        of suspicious and verified content.</p>
+                </div>
+                <div class="chart-container" style="position: relative; width: 100%; height: 260px; margin-top: 20px;">
+                    <div
+                        style="position: absolute; top: 50%; left: 35%; transform: translate(-50%, -50%); text-align: center; pointer-events: none;">
+                        <span
+                            style="display: block; font-size: 0.7rem; color: var(--text-muted); letter-spacing: 1px; font-weight: 700; text-transform: uppercase;">Total
+                            Docs</span>
+                        <span
+                            style="display: block; font-size: 2rem; color: var(--text-main); font-weight: 800; margin-top: 2px;">{{
+                            fake_count + real_count }}</span>
+                    </div>
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+
+            <div class="panel" style="padding: 30px; box-sizing: border-box;">
+                <div class="panel-header">
+                    <h2 style="font-weight: 700; font-size: 1.4rem;">Confidence Index Variance</h2>
+                    <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 4px;">Moving vector timeline
+                        tracking calculation accuracy values.</p>
+                </div>
+                <div style="width: 100%; height: 260px; margin-top: 20px;">
+                    <canvas id="lineChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="panel heatmap-panel" style="margin-top:30px; padding: 30px; box-sizing: border-box;">
+            <div class="panel-header" style="margin-bottom: 20px;">
+                <h2 style="font-weight: 700; font-size: 1.4rem;">Investigation Activity</h2>
+                <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 4px;">Monthly scanning activity
+                    processed by the intelligence engine.</p>
+            </div>
+
+            <div class="github-heatmap">
+                <div class="months-row" id="monthsRow"></div>
+                <div class="heatmap-body">
+                    <div class="days-column">
+                        <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+                    </div>
+                    <div class="heatmap-grid" id="heatmapGrid" data-heatmap='{{ heatmap_data | tojson }}'></div>
+                </div>
+                <div class="heatmap-legend">
+                    <span>Inference Load Sleep</span>
+                    <div class="heatmap-box level-0"></div>
+                    <div class="heatmap-box level-1"></div>
+                    <div class="heatmap-box level-2"></div>
+                    <div class="heatmap-box level-3"></div>
+                    <div class="heatmap-box level-4"></div>
+                    <span>Peak Execution</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel" style="margin-top:30px; padding: 30px; box-sizing: border-box;">
+            <div class="panel-header" style="margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h2 style="font-weight: 700; font-size: 1.4rem;">Model Reliability Report</h2>
+                        <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 4px;">Performance evaluation
+                            of the AI detection pipeline across ingestion formats.</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <span
+                            style="display:block; font-size: 0.65rem; color: var(--text-muted); letter-spacing: 1px; font-weight:700;">MEAN
+                            INF. CONFIDENCE</span>
+                        <span style="font-size: 1.2rem; color: #00ffaa; font-weight: 800;">{{ avg_confidence }}%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="metrics-table-container">
+                <table class="metrics-table">
+                    <thead>
+                        <tr>
+                            <th>Detection Category</th>
+                            <th>Operational Pipeline Status</th>
+                            <th>Sample Records Evaluated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="font-weight: 700; color: #ffffff;">📝 Direct Raw Text Submissions</td>
+                            <td><span
+                                    style="color: #00ffaa; font-weight: 600; font-size: 0.8rem; background: rgba(0,255,170,0.06); padding: 4px 8px; border-radius: 4px;">ACTIVE
+                                    STREAM NOMINAL</span></td>
+                            <td style="color: var(--text-muted); font-weight: 600;">{{ text_scans }} analysis sessions
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 700; color: #00d9ff;">🔗 Scraped Web URL Requests</td>
+                            <td><span
+                                    style="color: #00d9ff; font-weight: 600; font-size: 0.8rem; background: rgba(0,217,255,0.06); padding: 4px 8px; border-radius: 4px;">DOM
+                                    PARSER STABLE</span></td>
+                            <td style="color: var(--text-muted); font-weight: 600;">{{ url_scans }} analysis sessions
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 700; color: #ff4d6d;">📁 Binary PDF File Extracts</td>
+                            <td><span
+                                    style="color: #ff4d6d; font-weight: 600; font-size: 0.8rem; background: rgba(255,77,109,0.06); padding: 4px 8px; border-radius: 4px;">EXTRACTOR
+                                    ENGINE READY</span></td>
+                            <td style="color: var(--text-muted); font-weight: 600;">{{ pdf_scans }} analysis sessions
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="history-section" style="margin-top: 40px;">
+                <div class="panel-header" style="margin-bottom: 20px;">
+                    <h2 style="font-weight: 700; font-size: 1.4rem;">Recent Investigation Activity</h2>
+                    <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 4px;">Latest content analysis
+                        sessions recorded by the VERITAS platform.</p>
+                </div>
+
+                <div class="history-table-wrapper">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>Detection Result</th>
+                                <th>Reliability Score</th>
+                                <th>Scan Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in history %}
+                            <tr>
+                                <td>
+                                    <span class="prediction-pill {{ item.prediction.lower().replace(' ', '-') }}">
+                                        {{ item.prediction }}
+                                    </span>
+                                </td>
+                                <td style="font-family: monospace; font-weight: 600; color: #ffffff;">
+                                    {{ item.confidence }}
+                                </td>
+                                <td style="color: var(--text-muted); font-size: 0.85rem;">
+                                    {{ item.timestamp.strftime('%d %b %Y | %H:%M') }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <a href="/scanner" class="btn-outline" style="margin-top:40px; display:block; text-align:center;">
+                ← Back to Threat Scanner
+            </a>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-window">
+            <div class="modal-header">
+                <div>
+                    <h3 id="modalTitle" style="font-weight: 700; font-size: 1.2rem; color: #fff;">Pipeline Inspection
+                    </h3>
+                    <p id="modalSubtitle" style="color: var(--text-muted); font-size: 0.8rem; margin-top: 2px;">Filtered
+                        real-time database query results</p>
+                </div>
+                <button class="modal-close-btn" id="modalClose">✕</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. ENTERPRISE DONUT CHART INITIALIZATION ---
+        new Chart(document.getElementById('pieChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Suspicious Weight', 'Verified Weight'],
+                datasets: [{
+                    data: [{{ fake_count }}, {{ real_count }}],
+            backgroundColor: ['#ff4d6d', '#00ffaa'],
+            borderWidth: 4,
+            borderColor: '#0c1022',
+            borderRadius: 6,
+            hoverOffset: 8
+        }]
+            },
+            options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '75%',
+            spacing: 4,
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: {
+                        color: '#94a3b8',
+                        font: { family: "'Inter', sans-serif", size: 12, weight: '600' },
+                        padding: 16,
+                        usePointStyle: true,
+                        pointStyle: 'circle'
+                    }
+                }
+            }
+        }
+        });
+
+        // --- 2. TIME TREND VECTOR LINE GRAPH GENERATION ---
+        const rawHistoryConfidences = [
+            {% for item in history | reverse %}
+        parseFloat("{{ item.confidence }}".replace('%', '')),
+            {% endfor %}
+        ];
+
+        const dataTimelinePoints = rawHistoryConfidences.length ? rawHistoryConfidences : [92, 95, 99, 94, 98, 100];
+        const dummyTimelineLabels = dataTimelinePoints.map((_, i) => `step-${dataTimelinePoints.length - i}`);
+
+        new Chart(document.getElementById('lineChart'), {
+            type: 'line',
+            data: {
+                labels: dummyTimelineLabels,
+                datasets: [{
+                    label: 'Calculated Weight Performance Accuracy',
+                    data: dataTimelinePoints,
+                    borderColor: '#00d9ff',
+                    borderWidth: 3,
+                    pointBackgroundColor: '#00ffaa',
+                    pointBorderColor: '#0c1022',
+                    pointHoverRadius: 7,
+                    tension: 0.35,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { grid: { display: false }, ticks: { color: '#64748b', font: { size: 10 } } },
+                    y: {
+                        grid: { color: 'rgba(255,255,255,0.04)' },
+                        ticks: { color: '#64748b', font: { size: 10 } },
+                        min: 50,
+                        max: 100
+                    }
+                }
+            }
+        });
+
+        // --- 3. GEOMETRIC ARCHITECTURE HEATMAP SYSTEM ENGINE ---
+        (() => {
+            const heatmapGrid = document.getElementById("heatmapGrid");
+            const monthsRow = document.getElementById("monthsRow");
+            if (!heatmapGrid || !monthsRow) return;
+
+            const heatmapData = JSON.parse(heatmapGrid.dataset.heatmap || "[]");
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+            let renderedMonths = new Set();
+
+            heatmapData.forEach((item, index) => {
+                const box = document.createElement("div");
+                box.classList.add("heatmap-box");
+
+                let level = 0;
+                if (item.count >= 1) level = 1;
+                if (item.count >= 3) level = 2;
+                if (item.count >= 5) level = 3;
+                if (item.count >= 8) level = 4;
+
+                box.classList.add(`level-${level}`);
+                box.title = `${item.count} updates on ${item.date}`;
+                heatmapGrid.appendChild(box);
+
+                const weekColumnIndex = Math.floor(index / 7);
+                const dateParts = item.date.split('-');
+                const itemMonth = parseInt(dateParts[1], 10) - 1;
+                const itemDay = parseInt(dateParts[2], 10);
+
+                if (itemDay <= 7) {
+                    const labelKey = `${dateParts[0]}-${itemMonth}`;
+                    if (!renderedMonths.has(labelKey)) {
+                        renderedMonths.add(labelKey);
+                        const label = document.createElement("span");
+                        label.classList.add("month-label");
+                        label.innerText = monthNames[itemMonth];
+                        label.style.left = `${weekColumnIndex * 15}px`;
+                        monthsRow.appendChild(label);
+                    }
+                }
+            });
+        })();
+
+        // =========================================================
+        // --- 4. DYNAMIC POPUP MODAL ENGINE INTERACTION ARCHITECTURE ---
+        // =========================================================
+        (() => {
+            const cardFake = document.getElementById("cardFake");
+            const cardReal = document.getElementById("cardReal");
+            const modalOverlay = document.getElementById("modalOverlay");
+            const modalClose = document.getElementById("modalClose");
+            const modalTitle = document.getElementById("modalTitle");
+            const modalSubtitle = document.getElementById("modalSubtitle");
+            const modalBody = document.getElementById("modalBody");
+
+            // Convert Jinja history structure safely into JavaScript arrays for deep client routing
+            const dynamicLogs = [
+                {% for item in history %}
+                {
+            text: "{{ item.text | replace('\n', ' ') | replace('\"', '\\\"') | safe }}",
+                prediction: "{{ item.prediction }}",
+                    confidence: "{{ item.confidence }}",
+                        timestamp: "{{ item.timestamp.strftime('%d %b %Y | %H:%M') }}"
+        },
+        {% endfor %}
+            ];
+
+        function openMatrixModal(filterType) {
+            // Clear the body canvas clean
+            modalBody.innerHTML = "";
+
+            // Set text color variables according to dynamic targets
+            if (filterType === "FAKE NEWS") {
+                modalTitle.innerText = "Suspicious System Logs";
+                modalTitle.style.color = "#ff4d6d";
+                modalSubtitle.innerText = "Articles identified as high-risk misinformation anomalies";
+            } else {
+                modalTitle.innerText = "Verified Integrity Logs";
+                modalTitle.style.color = "#00ffaa";
+                modalSubtitle.innerText = "Articles vetted and classified secure by the AI engine";
+            }
+
+            // Filter matching array elements matching the selection criteria
+            const filtered = dynamicLogs.filter(log => log.prediction === filterType);
+
+            if (filtered.length === 0) {
+                modalBody.innerHTML = `<div style="text-align:center; padding: 40px 0; color: var(--text-muted);">No logs matching this target category are present in the current session view block.</div>`;
+            } else {
+                filtered.forEach(log => {
+                    const row = document.createElement("div");
+                    row.classList.add("modal-log-item");
+                    row.innerHTML = `
+                            <div style="font-size: 0.92rem; color: #fff; line-height: 1.6; margin-bottom: 8px; font-weight: 500;">
+                                "${log.text.length > 180 ? log.text.substring(0, 180) + '...' : log.text}"
+                            </div>
+                            <div class="modal-log-meta">
+                                <span>Confidence: <strong style="color: ${filterType === 'FAKE NEWS' ? '#ff4d6d' : '#00ffaa'}">${log.confidence}</strong></span>
+                                <span>Time: ${log.timestamp}</span>
+                            </div>
+                        `;
+                    modalBody.appendChild(row);
+                });
+            }
+
+            // Fire activation transition animate
+            modalOverlay.classList.add("active");
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove("active");
+        }
+
+        // Click Event Listener Registries
+        if (cardFake) cardFake.addEventListener("click", () => openMatrixModal("FAKE NEWS"));
+        if (cardReal) cardReal.addEventListener("click", () => openMatrixModal("REAL NEWS"));
+        if (modalClose) modalClose.addEventListener("click", closeModal);
+
+        // Close automatically if clicking the outer glass background blur area
+        modalOverlay.addEventListener("click", (e) => {
+            if (e.target === modalOverlay) closeModal();
+        });
+
+        // ESC Key safety cancel feature
+        window.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && modalOverlay.classList.contains("active")) closeModal();
+        });
+        }) ();
+    </script>
+</body>
+
+</html>

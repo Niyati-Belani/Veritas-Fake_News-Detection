@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" rel="stylesheet" />
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+<title>
+    Veritas | Neural Stream Scanner
+</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+    <style>
+        /* --- EMPTY STATE SCANNER PANEL STYLING --- */
+        
+        .empty-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            min-height: 500px; /* Ensures the panel matches the height of the left side */
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed rgba(0, 217, 255, 0.2);
+            border-radius: 16px;
+        }
+
+        /* Glowing Radar Animation */
+        .pulse-ring {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(0, 217, 255, 0.1);
+            border: 2px solid #00d9ff; /* Neon Cyan */
+            margin-bottom: 25px;
+            position: relative;
+            animation: pulse-ring-anim 2s infinite;
+        }
+
+        @keyframes pulse-ring-anim {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 217, 255, 0.5); }
+            70% { transform: scale(1); box-shadow: 0 0 0 25px rgba(0, 217, 255, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 217, 255, 0); }
+        }
+
+        .empty-placeholder h2 {
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .empty-placeholder p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1rem;
+            margin-bottom: 25px;
+            max-width: 320px;
+            line-height: 1.5;
+        }
+
+        .empty-placeholder .micro-text {
+            font-family: monospace;
+            color: #00ffaa; /* Neon Green */
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            font-weight: 700;
+            background: rgba(0, 255, 170, 0.1);
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 255, 170, 0.2);
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+<nav class="top-nav">
+
+        <a href="/scanner" class="veritas-brand-link">
+            <div class="veritas-logo-mark">
+                <div class="veritas-fluid-node"></div>
+            </div>
+            
+            <span class="veritas-title-string">Veritas</span>
+            <span class="veritas-core-badge">Core Engine</span>
+        </a>
+
+        <div class="nav-links">
+
+        <div class="nav-links">
+
+            <a href="/guide">
+                Guide
+            </a>
+
+            <a href="/scanner" class="active">
+                Scanner
+            </a>
+
+            <a href="/analytics">
+                Metrics
+            </a>
+
+            <a href="/about">
+                About
+            </a>
+
+            <a href="/contact">
+                Contact
+            </a>
+            <a href="/profile" class="nav-profile-icon" title="Operative Dossier">
+                <span class="material-symbols-outlined">account_circle</span>
+            </a>
+
+            <a href="/logout" class="btn-nav-auth">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+    <!-- =====================================================
+         HERO SECTION
+    ====================================================== -->
+
+    <section class="scanner-hero">
+
+        <div class="scanner-badge">
+
+            TRUST • VERIFY • ANALYZE
+
+        </div>
+
+        <h1>
+
+            Detect Misinformation
+            <span>Before It Spreads</span>
+
+        </h1>
+
+        <p>
+
+            Scan articles, URLs, and PDF documents using
+            advanced language intelligence designed to uncover
+            misleading narratives, emotional manipulation,
+            and suspicious reporting patterns.
+
+        </p>
+
+    </section>
+
+    <!-- =====================================================
+         MAIN CONTAINER
+    ====================================================== -->
+
+    <div class="main-container">
+
+        <!-- =================================================
+             LEFT PANEL
+        ================================================== -->
+
+        <div class="panel input-panel">
+
+            <div class="panel-header">
+
+                <h2>
+                    Start a New Scan
+                </h2>
+
+                <p>
+
+                    Paste article text, provide a news link,
+                    or upload a PDF document to begin analysis.
+
+                </p>
+
+            </div>
+
+            <!-- =============================================
+                 TEXT FORM
+            ============================================== -->
+
+            <form
+                action="/predict_text"
+                method="POST"
+            >
+
+                <!-- TEXT INPUT -->
+
+                <div class="input-group">
+
+                    <label>
+                        ARTICLE OR NEWS CONTENT
+                    </label>
+
+                    <textarea
+                        name="news_text"
+                        placeholder="Paste article text here..."
+                    ></textarea>
+
+                </div>
+
+                <!-- BUTTON -->
+
+                <button
+                    type="submit"
+                    class="btn-primary unified-btn"
+                >
+
+                    Analyze Text
+
+                </button>
+
+            </form>
+
+            <!-- DIVIDER -->
+
+            <div class="divider">
+
+                <span>
+                    OR
+                </span>
+
+            </div>
+
+            <!-- =============================================
+                 URL FORM
+            ============================================== -->
+
+            <form
+                action="/predict_url"
+                method="POST"
+            >
+
+                <!-- URL INPUT -->
+
+                <div class="input-group">
+
+                    <label>
+                        NEWS ARTICLE LINK
+                    </label>
+
+                    <input
+                        type="url"
+                        name="news_url"
+                        placeholder="https://news-site.com/article"
+                    >
+
+                </div>
+
+                <!-- BUTTON -->
+
+                <button
+                    type="submit"
+                    class="btn-primary unified-btn"
+                >
+
+                    Analyze Article
+
+                </button>
+
+            </form>
+
+            <!-- DIVIDER -->
+
+            <div class="divider">
+
+                <span>
+                    OR
+                </span>
+
+            </div>
+
+            <!-- =============================================
+                 PDF FORM
+            ============================================== -->
+
+            <form
+                action="/predict_pdf"
+                method="POST"
+                enctype="multipart/form-data"
+            >
+
+                <!-- FILE INPUT -->
+
+                <div class="input-group">
+
+                    <label>
+                        UPLOAD PDF DOCUMENT
+                    </label>
+
+                    <input
+                        type="file"
+                        name="pdf_file"
+                        accept=".pdf"
+                        class="file-input"
+                    >
+
+                </div>
+
+                <!-- BUTTON -->
+
+                <button
+                    type="submit"
+                    class="btn-primary unified-btn"
+                >
+
+                    Analyze PDF
+
+                </button>
+
+            </form>
+
+            <!-- ERROR -->
+
+            {% if error %}
+
+                <div class="alert-error">
+
+                    {{ error }}
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+        <!-- =================================================
+             RIGHT PANEL
+        ================================================== -->
+
+        <div class="panel results-panel {% if not prediction %}empty-state{% endif %}">
+
+            {% if prediction %}
+
+                <!-- RESULT HEADER -->
+
+                <div class="result-header">
+
+                    <div>
+
+                        <h2>
+                            Analysis Report
+                        </h2>
+
+                        <p class="micro-text">
+
+                            Content evaluation completed successfully
+
+                        </p>
+
+                    </div>
+
+                    <span class="status-badge {{ prediction | lower }}">
+
+                        {{ prediction }}
+
+                    </span>
+
+                </div>
+
+                <!-- =========================================
+                     METRICS GRID
+                ========================================== -->
+
+                <div class="metrics-grid">
+
+                    <!-- CONFIDENCE -->
+
+                    <div class="metric-card">
+
+                        <h3>
+                            AI Confidence
+                        </h3>
+
+                        <div class="confidence-ring {% if prediction == 'FAKE NEWS' %}ring-danger{% else %}ring-success{% endif %}">
+
+                            <span class="ring-text">
+
+                                {{ confidence }}
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <!-- SENTIMENT -->
+
+                    <div class="metric-card">
+
+                        <h3>
+                            Credibility Status
+                        </h3>
+
+                        <div class="sentiment-indicator">
+
+                            <span class="sentiment-icon">
+
+                                {% if prediction == 'FAKE NEWS' %}
+
+                                    🔴
+
+                                {% else %}
+
+                                    🟢
+
+                                {% endif %}
+
+                            </span>
+
+                            <strong>
+
+                                {{ prediction }}
+
+                            </strong>
+
+                        </div>
+
+                        <p class="micro-text">
+
+                            Generated using contextual language analysis
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- =========================================
+                     ANALYSIS DETAILS
+                ========================================== -->
+
+                <div class="glass-card processed-card">
+
+                    <div class="processed-header">
+
+                        <h3>
+                             Extracted Content
+                        </h3>
+
+                        <span class="scan-status">
+
+                            SCANNED
+
+                        </span>
+
+                    </div>
+
+                    <div class="processed-content">
+
+                        {{ original_text[:1800] }}
+
+                    </div>
+
+                </div>
+
+            {% else %}
+
+                <!-- EMPTY STATE -->
+
+                <div class="empty-placeholder">
+
+                    <div class="pulse-ring"></div>
+
+                    <h2>
+                        Ready for Analysis
+                    </h2>
+
+                    <p>
+
+                        Submit an article, link, or document
+                        to begin credibility evaluation.
+
+                    </p>
+
+                    <span class="micro-text">
+
+                        SYSTEM ONLINE
+
+                    </span>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
