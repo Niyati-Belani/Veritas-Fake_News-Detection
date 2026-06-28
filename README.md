@@ -37,8 +37,6 @@
   </tr>
 </table>
 
-*💡 Pro-Tip: Simply swap out `YOUR_IMAGE_LINK_1` through `YOUR_IMAGE_LINK_4` with the URLs generated from your drag-and-drop Issue hack or your raw GitHub assets folder!*
-
 ---
 
 ## 🧩 The Real-World Problem Statement
