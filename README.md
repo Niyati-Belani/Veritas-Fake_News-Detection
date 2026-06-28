@@ -13,9 +13,9 @@
 <table width="100%">
   <tr>
     <td width="50%" align="center">
-      <b>📊 Core Overview Dashboard</b>
+      <b>📊 Authentication page</b>
       <br/><br/>
-      <img src="YOUR_IMAGE_LINK_1" width="100%" alt="Dashboard Hub View" style="border-radius: 8px; border: 1px solid rgba(147, 51, 234, 0.15);"/>
+      <img src="(https://github.com/Niyati-Belani/Veritas-Fake_News-Detection/blob/main/static/images/Auth.jpeg?raw=true)" width="100%" alt="Dashboard Hub View" style="border-radius: 8px; border: 1px solid rgba(147, 51, 234, 0.15);"/>
     </td>
     <td width="50%" align="center">
       <b>🔍 Verification Processing Terminal</b>
