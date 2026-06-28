@@ -25,12 +25,12 @@
   </tr>
   <tr>
     <td width="50%" align="center">
-      <b>🛡️ Source Clearing Panel</b>
+      <b>🧾 Automated System Configuration</b>
       <br/><br/>
       <img src="YOUR_IMAGE_LINK_3" width="100%" alt="User Access Interface" style="border-radius: 8px; border: 1px solid rgba(147, 51, 234, 0.15);"/>
     </td>
     <td width="50%" align="center">
-      <b>🧾 Automated System Configuration</b>
+      <b>🛡️ Database </b>
       <br/><br/>
       <img src="YOUR_IMAGE_LINK_4" width="100%" alt="ERP Settings Terminal" style="border-radius: 8px; border: 1px solid rgba(147, 51, 234, 0.15);"/>
     </td>
