@@ -1,0 +1,8 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch
+transformers
+flask
+pymongo
+bcrypt
+newspaper3k
+pymupdf
