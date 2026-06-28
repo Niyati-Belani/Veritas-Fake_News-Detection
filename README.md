@@ -27,7 +27,7 @@
     <td width="50%" align="center">
       <b>🧾 Automated System Configuration</b>
       <br/><br/>
-      <img src="YOUR_IMAGE_LINK_3" width="100%" alt="User Access Interface" style="border-radius: 8px; border: 1px solid rgba(147, 51, 234, 0.15);"/>
+      <img src="https://github.com/Niyati-Belani/Veritas-Fake_News-Detection/blob/main/static/images/matrix.jpeg?raw=true" width="100%" alt="User Access Interface" style="border-radius: 8px; border: 1px solid rgba(147, 51, 234, 0.15);"/>
     </td>
     <td width="50%" align="center">
       <b>🛡️ Database </b>
