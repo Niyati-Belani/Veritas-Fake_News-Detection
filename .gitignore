@@ -1,0 +1,70 @@
+# ==========================================
+# Flask & Machine Learning .gitignore
+# ==========================================
+
+# 1. Python Caches & Compiled Files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# 2. Virtual Environments
+venv/
+env/
+.env/
+.venv/
+Scripts/
+Include/
+Lib/
+
+# 3. Environment Variables & Secrets (CRITICAL)
+.env
+.flaskenv
+secrets.json
+config.py
+
+# 4. Machine Learning Models (Often too large for GitHub)
+*.pkl
+*.joblib
+*.h5
+*.keras
+*.pt
+*.pth
+*.onnx
+
+# 5. Datasets & Large Files
+*.csv
+*.tsv
+*.dat
+*.db
+*.sqlite3
+data/
+datasets/
+
+# 6. Jupyter Notebooks (Optional: Ignores checkpoints, keeps actual notebooks)
+.ipynb_checkpoints
+
+# 7. OS Generated Files (Mac/Windows clutter)
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 8. IDEs & Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 9. Flask Specifics
+instance/
+.webassets-cache
+
+
+
+# Allow specific model files to be uploaded
+!fake_news_model.pkl
+!tfidf_vectorizer.pkl
