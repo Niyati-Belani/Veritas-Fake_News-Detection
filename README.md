@@ -75,5 +75,5 @@ Follow these sequential steps to compile and spin up the Veritas local terminal 
 
 ### 1. Replicate Project Node
 ```bash
-git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
-cd your-repo-name
+git clone [https://github.com/Niyati-Belani/Veritas-Fake_News-Detection.git](https://github.com/Niyati-Belani/Veritas-Fake_News-Detection.git)
+cd Veritas-Fake_News-Detection
