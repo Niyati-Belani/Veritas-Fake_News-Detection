@@ -1,0 +1,1965 @@
+/* =========================================================
+   ROOT VARIABLES
+========================================================= */
+
+:root{
+
+    --bg:#060816;
+
+    --bg-secondary:#0c1022;
+
+    --panel-bg:rgba(255,255,255,0.04);
+
+    --border:rgba(255,255,255,0.08);
+
+    --text-main:#ffffff;
+
+    --text-muted:#94a3b8;
+
+    --primary:#00ffaa;
+
+    --primary-dark:#00d9ff;
+
+    --danger:#ff4d6d;
+
+    --success:#00ffaa;
+
+    --shadow:0 0 40px rgba(0,255,170,0.08);
+
+    --radius:24px;
+}
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+}
+
+html{
+
+    scroll-behavior:smooth;
+}
+
+body{
+
+    font-family:'Inter',sans-serif;
+
+    background:
+        radial-gradient(
+            circle at top,
+            rgba(0,255,170,0.06),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at bottom right,
+            rgba(0,217,255,0.08),
+            transparent 30%
+        ),
+        var(--bg);
+
+    color:var(--text-main);
+
+    min-height:100vh;
+
+    overflow-x:hidden;
+}
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar{
+
+    width:10px;
+}
+
+::-webkit-scrollbar-track{
+
+    background:#0a0d1d;
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:rgba(255,255,255,0.15);
+
+    border-radius:999px;
+}
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.top-nav{
+
+    width:100%;
+
+    padding:22px 6%;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:1000;
+
+    backdrop-filter:blur(18px);
+
+    background:rgba(6,8,22,0.65);
+
+    border-bottom:1px solid rgba(255,255,255,0.06);
+}
+
+.nav-brand{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+}
+
+.logo-mark{
+
+    font-size:1.4rem;
+
+    font-weight:800;
+
+    letter-spacing:1px;
+}
+
+.badge{
+
+    padding:6px 12px;
+
+    border-radius:999px;
+
+    background:rgba(0,255,170,0.12);
+
+    border:1px solid rgba(0,255,170,0.25);
+
+    color:var(--primary);
+
+    font-size:0.75rem;
+
+    font-weight:700;
+
+    letter-spacing:1px;
+}
+
+.nav-links{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+}
+
+.nav-links a{
+
+    text-decoration:none;
+
+    color:var(--text-muted);
+
+    font-size:0.95rem;
+
+    transition:0.3s ease;
+}
+
+.nav-links a:hover,
+.nav-links .active{
+
+    color:white;
+}
+
+.btn-nav-auth{
+
+    padding:12px 22px;
+
+    border-radius:14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,255,170,0.18),
+            rgba(0,217,255,0.12)
+        );
+
+    border:1px solid rgba(0,255,170,0.22);
+
+    color:white !important;
+
+    font-weight:600;
+}
+
+/* =========================================================
+   PANELS
+========================================================= */
+
+.panel{
+
+    background:var(--panel-bg);
+
+    border:1px solid var(--border);
+
+    border-radius:var(--radius);
+
+    backdrop-filter:blur(18px);
+
+    box-shadow:var(--shadow);
+
+    overflow:hidden;
+}
+
+.glass-card{
+
+    background:rgba(255,255,255,0.04);
+
+    border:1px solid rgba(255,255,255,0.06);
+
+    border-radius:22px;
+
+    backdrop-filter:blur(14px);
+}
+
+/* =========================================================
+   AUTH PAGES
+========================================================= */
+
+.register-wrapper,
+.login-wrapper{
+
+    width:100%;
+
+    min-height:calc(100vh - 90px);
+
+    display:grid;
+
+    grid-template-columns:1fr 500px;
+
+    gap:60px;
+
+    align-items:center;
+
+    padding:60px 6%;
+}
+
+.register-info,
+.login-info{
+
+    max-width:700px;
+}
+
+.register-badge,
+.login-badge,
+.scanner-badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    padding:10px 18px;
+
+    border-radius:999px;
+
+    border:1px solid rgba(0,255,170,0.18);
+
+    background:rgba(0,255,170,0.08);
+
+    color:var(--primary);
+
+    font-size:0.8rem;
+
+    letter-spacing:1px;
+
+    font-weight:700;
+}
+
+.register-title,
+.login-title{
+
+    font-size:4.2rem;
+
+    line-height:1.1;
+
+    margin:28px 0;
+}
+
+.register-title span,
+.login-title span,
+.highlight{
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary),
+            var(--primary-dark)
+        );
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+}
+
+.register-description,
+.login-description{
+
+    color:var(--text-muted);
+
+    line-height:1.8;
+
+    font-size:1.05rem;
+
+    max-width:620px;
+}
+
+/* =========================================================
+   FEATURES / STATS
+========================================================= */
+
+.register-features,
+.login-stats{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
+    gap:20px;
+
+    margin-top:45px;
+}
+
+.feature-item,
+.login-stat-card{
+
+    padding:24px;
+
+    border-radius:22px;
+
+    background:rgba(255,255,255,0.04);
+
+    border:1px solid rgba(255,255,255,0.06);
+
+    backdrop-filter:blur(14px);
+}
+
+.feature-item{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:18px;
+}
+
+.feature-item span{
+
+    font-size:2rem;
+
+    color:var(--primary);
+}
+
+.feature-item h4,
+.login-stat-card h2{
+
+    margin-bottom:8px;
+}
+
+.feature-item p,
+.login-stat-card p{
+
+    color:var(--text-muted);
+
+    line-height:1.6;
+
+    font-size:0.92rem;
+}
+
+/* =========================================================
+   AUTH PANEL
+========================================================= */
+
+.auth-panel{
+
+    padding:55px 45px;
+
+    position:relative;
+}
+
+.register-top-line,
+.login-top-line{
+
+    position:absolute;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:4px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary),
+            var(--primary-dark)
+        );
+}
+
+.register-header,
+.login-header{
+
+    text-align:center;
+
+    margin-bottom:40px;
+}
+
+.register-icon,
+.login-icon{
+
+    width:80px;
+
+    height:80px;
+
+    margin:0 auto 18px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:rgba(0,255,170,0.08);
+
+    border:1px solid rgba(0,255,170,0.15);
+}
+
+.register-icon span,
+.login-icon span{
+
+    font-size:2.5rem;
+
+    color:var(--primary);
+}
+
+.register-header h2,
+.login-header h2{
+
+    letter-spacing:2px;
+
+    margin-bottom:10px;
+}
+
+.register-header p,
+.login-header p{
+
+    color:var(--text-muted);
+
+    line-height:1.7;
+}
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.input-group{
+
+    margin-bottom:28px;
+}
+
+.input-group label{
+
+    display:block;
+
+    margin-bottom:10px;
+
+    font-size:0.78rem;
+
+    letter-spacing:1px;
+
+    color:var(--text-muted);
+}
+
+.input-group input,
+.input-group textarea{
+
+    width:100%;
+
+    background:transparent;
+
+    border:none;
+
+    border-bottom:1px solid rgba(255,255,255,0.12);
+
+    padding:14px 0;
+
+    color:white;
+
+    font-size:1rem;
+
+    outline:none;
+
+    transition:0.3s ease;
+}
+
+.input-group textarea{
+
+    min-height:130px;
+
+    resize:none;
+}
+
+.input-group input:focus,
+.input-group textarea:focus{
+
+    border-bottom-color:var(--primary);
+}
+
+.password-label-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+}
+
+.password-label-row a{
+
+    font-size:0.78rem;
+
+    color:var(--primary);
+
+    text-decoration:none;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn-submit,
+.btn-primary,
+.btn-outline,
+.footer-btn{
+
+    display:inline-flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:15px 28px;
+
+    border-radius:16px;
+
+    border:none;
+
+    cursor:pointer;
+
+    font-size:0.95rem;
+
+    font-weight:700;
+
+    transition:0.3s ease;
+
+    text-decoration:none;
+}
+
+.btn-submit,
+.btn-primary,
+.footer-btn{
+
+    width:100%;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--primary-dark)
+        );
+
+    color:#06111b;
+}
+
+.btn-submit:hover,
+.btn-primary:hover,
+.footer-btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 0 28px rgba(0,255,170,0.25);
+}
+
+.btn-outline{
+
+    border:1px solid rgba(255,255,255,0.1);
+
+    color:white;
+
+    background:rgba(255,255,255,0.04);
+}
+
+/* =========================================================
+   SCANNER PAGE
+========================================================= */
+
+.scanner-hero{
+
+    text-align:center;
+
+    padding:70px 20px 30px;
+}
+
+.scanner-hero h1{
+
+    font-size:4rem;
+
+    line-height:1.1;
+
+    margin:22px 0;
+}
+
+.scanner-hero h1 span{
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary),
+            var(--primary-dark)
+        );
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+}
+
+.scanner-hero p{
+
+    color:var(--text-muted);
+
+    max-width:780px;
+
+    margin:auto;
+
+    line-height:1.8;
+}
+
+.main-container{
+
+    width:92%;
+
+    max-width:1400px;
+
+    margin:40px auto;
+
+    display:grid;
+
+    grid-template-columns:450px 1fr;
+
+    gap:30px;
+}
+
+.input-panel,
+.results-panel{
+
+    padding:35px;
+}
+
+.panel-header{
+
+    margin-bottom:30px;
+}
+
+.panel-header p{
+
+    color:var(--text-muted);
+
+    margin-top:10px;
+
+    line-height:1.7;
+}
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.divider{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:14px;
+
+    margin:26px 0;
+
+    color:var(--text-muted);
+
+    font-size:0.8rem;
+
+    letter-spacing:2px;
+}
+
+.divider::before,
+.divider::after{
+
+    content:"";
+
+    flex:1;
+
+    height:1px;
+
+    background:rgba(255,255,255,0.08);
+}
+
+/* =========================================================
+   RESULTS
+========================================================= */
+
+.result-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:30px;
+}
+
+.status-badge{
+
+    padding:10px 18px;
+
+    border-radius:999px;
+
+    font-size:0.8rem;
+
+    font-weight:700;
+
+    letter-spacing:1px;
+}
+
+.fake-news{
+
+    background:rgba(255,77,109,0.12);
+
+    color:#ff6b81;
+}
+
+.real-news{
+
+    background:rgba(0,255,170,0.12);
+
+    color:#00ffaa;
+}
+
+/* =========================================================
+   METRICS GRID
+========================================================= */
+
+.metrics-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+    gap:20px;
+
+    margin-bottom:30px;
+}
+
+.metric-card{
+
+    padding:24px;
+
+    border-radius:20px;
+
+    background:rgba(255,255,255,0.04);
+
+    border:1px solid rgba(255,255,255,0.06);
+
+    text-align:center;
+}
+
+/* =========================================================
+   CONFIDENCE RING
+========================================================= */
+
+.confidence-ring{
+
+    width:140px;
+
+    height:140px;
+
+    margin:25px auto 0;
+
+    border-radius:50%;
+
+    position:relative;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(10,14,28,0.95) 60%,
+            transparent 61%
+        );
+}
+
+.confidence-ring::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:50%;
+
+    padding:6px;
+
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+
+    -webkit-mask-composite:xor;
+
+    mask-composite:exclude;
+}
+
+.ring-success::before{
+
+    background:
+        conic-gradient(
+            var(--primary),
+            var(--primary-dark),
+            var(--primary)
+        );
+}
+
+.ring-danger::before{
+
+    background:
+        conic-gradient(
+            #ff4d6d,
+            #ff7b7b,
+            #ff4d6d
+        );
+}
+
+.ring-text{
+
+    font-size:1.5rem;
+
+    font-weight:800;
+}
+
+/* =========================================================
+   ANALYTICS
+========================================================= */
+
+.dashboard-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+    gap:20px;
+}
+
+.stat-card{
+
+    padding:28px;
+
+    border-radius:22px;
+
+    background:rgba(255,255,255,0.04);
+
+    border:1px solid rgba(255,255,255,0.06);
+}
+
+.stat-label{
+
+    color:var(--text-muted);
+
+    margin-bottom:10px;
+}
+
+.stat-value{
+
+    font-size:2rem;
+
+    font-weight:800;
+}
+
+.success{
+
+    color:var(--success);
+}
+
+.danger{
+
+    color:var(--danger);
+}
+
+/* =========================================================
+   TABLES & CONTAINERS (FIXED OVERFLOW & WRAPPING)
+========================================================= */
+
+.metrics-table-container,
+.history-table-wrapper {
+    overflow-x: auto;       
+    margin-top: 25px;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.01);
+    width: 100%;            
+}
+
+.metrics-table,
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;     
+}
+
+.metrics-table th,
+.history-table th {
+    padding: 16px 18px;
+    background: rgba(255, 255, 255, 0.04);
+    text-align: left;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    white-space: nowrap;    
+}
+
+.metrics-table td,
+.history-table td {
+    padding: 16px 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 0.9rem;
+    color: var(--text-main);
+    vertical-align: middle;
+    word-break: break-word; 
+}
+
+/* =========================================================
+   HISTORY SECTION
+========================================================= */
+
+.history-section{
+
+    margin-top:50px;
+}
+
+.prediction-pill{
+
+    padding:8px 14px;
+
+    border-radius:999px;
+
+    font-size:0.78rem;
+
+    font-weight:700;
+}
+
+/* =========================================================
+   ABOUT / GUIDE
+========================================================= */
+
+.section{
+
+    width:90%;
+
+    max-width:1200px;
+
+    margin:80px auto;
+}
+
+.section-title{
+
+    margin-bottom:35px;
+}
+
+.section-title span{
+
+    color:var(--primary);
+
+    font-size:0.85rem;
+
+    letter-spacing:2px;
+}
+
+.section-title h2{
+
+    margin-top:10px;
+
+    font-size:2.5rem;
+}
+
+.hero{
+
+    width:90%;
+
+    max-width:1200px;
+
+    margin:80px auto;
+}
+
+.hero h1{
+
+    font-size:4rem;
+
+    line-height:1.1;
+
+    margin:25px 0;
+}
+
+.hero h1 span{
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary),
+            var(--primary-dark)
+        );
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+}
+
+.hero p{
+
+    color:var(--text-muted);
+
+    line-height:1.8;
+
+    max-width:760px;
+}
+
+/* =========================================================
+   CONTACT
+========================================================= */
+
+.auth-container{
+
+    width:100%;
+
+    min-height:calc(100vh - 100px);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:40px 20px;
+}
+
+/* =========================================================
+   FOOTER CTA
+========================================================= */
+
+.footer-cta{
+
+    width:90%;
+
+    max-width:1000px;
+
+    margin:100px auto;
+
+    text-align:center;
+
+    padding:70px 40px;
+
+    border-radius:30px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,255,170,0.08),
+            rgba(0,217,255,0.05)
+        );
+
+    border:1px solid rgba(255,255,255,0.06);
+}
+
+.footer-cta h2{
+
+    font-size:2.8rem;
+
+    margin-bottom:20px;
+}
+
+.footer-cta p{
+
+    color:var(--text-muted);
+
+    line-height:1.8;
+
+    max-width:700px;
+
+    margin:0 auto 35px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1100px){
+
+    .main-container,
+    .register-wrapper,
+    .login-wrapper{
+
+        grid-template-columns:1fr;
+    }
+
+    .scanner-hero h1,
+    .register-title,
+    .login-title,
+    .hero h1{
+
+        font-size:3rem;
+    }
+}
+
+@media(max-width:768px){
+
+    .top-nav{
+
+        flex-direction:column;
+
+        gap:18px;
+    }
+
+    .nav-links{
+
+        flex-wrap:wrap;
+
+        justify-content:center;
+    }
+
+    .scanner-hero h1,
+    .register-title,
+    .login-title,
+    .hero h1{
+
+        font-size:2.3rem;
+    }
+
+    .section-title h2{
+
+        font-size:2rem;
+    }
+
+    .footer-cta h2{
+
+        font-size:2rem;
+    }
+
+    .input-panel,
+    .results-panel,
+    .auth-panel{
+
+        padding:28px;
+    }
+}
+/* =========================================================
+   ABOUT PAGE UPGRADE
+========================================================= */
+
+.hero{
+
+    position:relative;
+
+    overflow:hidden;
+
+    padding:120px 0 60px;
+}
+
+.hero::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:450px;
+
+    height:450px;
+
+    background:rgba(0,255,170,0.08);
+
+    filter:blur(120px);
+
+    top:-120px;
+
+    right:-100px;
+
+    z-index:-1;
+}
+
+.hero::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:350px;
+
+    height:350px;
+
+    background:rgba(0,217,255,0.06);
+
+    filter:blur(100px);
+
+    bottom:-100px;
+
+    left:-80px;
+
+    z-index:-1;
+}
+
+.hero-content{
+
+    max-width:1100px;
+
+    margin:auto;
+}
+
+.hero h1{
+
+    font-size:5rem;
+
+    line-height:1.05;
+
+    max-width:900px;
+}
+
+.hero{
+
+    min-height:85vh;
+
+    display:flex;
+
+    align-items:center;
+}
+
+.hero p{
+
+    margin-top:25px;
+
+    font-size:1.05rem;
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:18px;
+
+    margin-top:50px;
+}
+
+.stat-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    padding:28px;
+
+    border-radius:24px;
+
+    background:rgba(255,255,255,0.04);
+
+    border:1px solid rgba(255,255,255,0.06);
+
+    backdrop-filter:blur(16px);
+
+    transition:0.3s ease;
+}
+
+.stat-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:120px;
+
+    height:120px;
+
+    background:rgba(0,255,170,0.08);
+
+    border-radius:50%;
+
+    top:-50px;
+
+    right:-40px;
+}
+
+.stat-card:hover{
+
+    transform:translateY(-6px);
+
+    border-color:rgba(0,255,170,0.25);
+}
+
+.stat-card h2{
+
+    font-size:2.4rem;
+
+    margin-bottom:10px;
+}
+
+.stat-card span{
+
+    color:var(--text-muted);
+}
+
+/* =========================================================
+   MISSION CARD
+========================================================= */
+
+.section .glass-card{
+
+    padding:40px;
+
+    line-height:1.9;
+}
+
+.section .glass-card p + p{
+
+    margin-top:25px;
+}
+
+/* =========================================================
+   TIMELINE
+========================================================= */
+
+.timeline{
+
+    position:relative;
+
+    margin-top:50px;
+
+    display:grid;
+
+    gap:24px;
+}
+
+.timeline::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:18px;
+
+    top:10px;
+
+    width:2px;
+
+    height:calc(100% - 20px);
+
+    background:rgba(0,255,170,0.18);
+}
+
+.timeline-item{
+
+    position:relative;
+
+    padding:30px 30px 30px 70px;
+
+    border-radius:22px;
+
+    background:rgba(255,255,255,0.04);
+
+    border:1px solid rgba(255,255,255,0.06);
+
+    backdrop-filter:blur(14px);
+
+    transition:0.3s ease;
+}
+
+.timeline-item::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:16px;
+
+    height:16px;
+
+    border-radius:50%;
+
+    background:var(--primary);
+
+    left:11px;
+
+    top:38px;
+
+    box-shadow:0 0 18px var(--primary);
+}
+
+.timeline-item:hover{
+
+    transform:translateX(6px);
+
+    border-color:rgba(0,255,170,0.22);
+}
+
+.timeline-item span{
+
+    color:var(--primary);
+
+    font-size:0.8rem;
+
+    letter-spacing:2px;
+
+    font-weight:700;
+}
+
+.timeline-item h3{
+
+    margin:12px 0;
+}
+
+.timeline-item p{
+
+    color:var(--text-muted);
+
+    line-height:1.8;
+}
+
+/* =========================================================
+   ARCHITECTURE GRID
+========================================================= */
+
+.architecture-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+    gap:24px;
+}
+
+.architecture-card{
+
+    padding:35px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:0.3s ease;
+}
+
+.architecture-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+
+    height:180px;
+
+    background:rgba(0,255,170,0.06);
+
+    border-radius:50%;
+
+    top:-80px;
+
+    right:-80px;
+}
+
+.architecture-card:hover{
+
+    transform:translateY(-8px);
+
+    border-color:rgba(0,255,170,0.22);
+}
+
+.architecture-card .icon{
+
+    font-size:3rem;
+
+    margin-bottom:22px;
+}
+
+.architecture-card h3{
+
+    margin-bottom:14px;
+}
+
+.architecture-card p{
+
+    color:var(--text-muted);
+
+    line-height:1.8;
+}
+
+/* =========================================================
+   DEVELOPER CARD
+========================================================= */
+
+.developer-card{
+
+    display:flex;
+
+    gap:35px;
+
+    align-items:center;
+
+    padding:40px;
+}
+
+.developer-avatar{
+
+    width:130px;
+
+    height:130px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:3.5rem;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,255,170,0.12),
+            rgba(0,217,255,0.08)
+        );
+
+    border:1px solid rgba(0,255,170,0.18);
+}
+
+.developer-info span{
+
+    color:var(--primary);
+
+    font-size:0.8rem;
+
+    letter-spacing:2px;
+}
+
+.developer-info h3{
+
+    font-size:2rem;
+
+    margin:14px 0;
+}
+
+.developer-info p{
+
+    color:var(--text-muted);
+
+    line-height:1.8;
+
+    max-width:700px;
+}
+
+.developer-links{
+
+    display:flex;
+
+    gap:16px;
+
+    margin-top:25px;
+}
+
+.developer-links a{
+
+    padding:12px 20px;
+
+    border-radius:14px;
+
+    background:rgba(255,255,255,0.05);
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    color:white;
+
+    text-decoration:none;
+
+    transition:0.3s ease;
+}
+
+.developer-links a:hover{
+
+    border-color:rgba(0,255,170,0.22);
+
+    transform:translateY(-3px);
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1000px){
+
+    .hero-content{
+
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+
+        font-size:3.5rem;
+    }
+
+    .stats{
+
+        grid-template-columns:1fr;
+    }
+
+    .developer-card{
+
+        flex-direction:column;
+
+        text-align:center;
+    }
+
+    .developer-links{
+
+        justify-content:center;
+    }
+}
+
+@media(max-width:768px){
+
+    .hero{
+
+        padding-top:70px;
+    }
+
+    .hero h1{
+
+        font-size:2.6rem;
+    }
+
+    .section-title h2{
+
+        font-size:2rem;
+    }
+}
+/* =========================================================
+   REAL GITHUB HEATMAP (FIXED)
+========================================================= */
+
+.heatmap-panel {
+    padding: 30px;
+}
+
+.github-heatmap {
+    margin-top: 20px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    width: max-content;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+/* =========================================================
+   MONTH LABELS (FIXED ABSOLUTE CONTAINER)
+========================================================= */
+
+.months-row {
+    display: block;
+    position: relative;
+    height: 22px;
+    margin-left: 36px;   /* Accounts for .days-column 28px width + 8px body gap */
+    margin-bottom: 6px;
+    color: var(--text-muted);
+}
+
+.month-label {
+    position: absolute;
+    bottom: 0;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+    color: var(--text-muted);
+}
+
+/* =========================================================
+   BODY LAYOUT FLUIDITY
+========================================================= */
+
+.heatmap-body {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+/* =========================================================
+   DAYS AXIS COLUMN
+========================================================= */
+
+.days-column {
+    display: grid;
+    grid-template-rows: repeat(7, 12px);
+    gap: 3px;
+    color: var(--text-muted);
+    font-size: 11px;
+    line-height: 12px;
+    padding-right: 4px;
+    width: 28px;        /* Forces column text space boundaries to match margin-left perfectly */
+}
+
+/* Toggle row display patterns to mirror real GitHub graphs */
+.days-column span:nth-child(1),  /* Sun */
+.days-column span:nth-child(3),  /* Tue */
+.days-column span:nth-child(5),  /* Thu */
+.days-column span:nth-child(7) { /* Sat */
+    visibility: hidden;
+}
+
+/* =========================================================
+   GRID MAP DESIGN
+========================================================= */
+
+.heatmap-grid {
+    display: grid;
+    grid-template-rows: repeat(7, 12px);
+    grid-auto-flow: column; 
+    gap: 3px;
+}
+
+/* =========================================================
+   BOXES & COLORWAY
+========================================================= */
+
+.heatmap-box {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px; /* Authentic block edge radius */
+    background: #161b22;
+    transition: transform 0.1s ease;
+    cursor:pointer;
+}
+
+.heatmap-box:hover {
+    transform: scale(1.2);
+    outline: 1px solid rgba(255, 255, 255, 0.5);
+    z-index: 10;
+}
+
+/* Authentic GitHub Dark-Mode Palette */
+.level-0 { background: #161b22; }
+.level-1 { background: #0e4429; }
+.level-2 { background: #006d32; }
+.level-3 { background: #26a641; }
+.level-4 { background: #39d353; }
+
+/* =========================================================
+   LEGEND
+========================================================= */
+
+.heatmap-legend {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 4px;
+    margin-top: 14px;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+.heatmap-legend .heatmap-box {
+    cursor: default;
+}
+.heatmap-legend .heatmap-box:hover {
+    transform: none;
+    outline: none;
+}
+/* =========================================================
+   PIE CHART CANVAS WRAPPER (FIXED CENTERING)
+========================================================= */
+
+.chart-container {
+    display: block; /* Swapped to block context for reliable multi-element coordinates */
+    position: relative;
+    padding: 10px;
+    margin: 0 auto;
+    width: 100%;
+    height: 280px; /* Locked height ensures pristine cross-browser rendering frames */
+}
+/* =========================================================
+   VERITAS CORE DYNAMIC MORPHING LOGO (HIGH VISIBILITY)
+   ========================================================= */
+.veritas-brand-link {
+    display: flex;
+    align-items: center;
+    gap: 16px; /* Increased padding gap to accommodate larger logo footprint */
+    text-decoration: none;
+    user-select: none;
+}
+
+.veritas-logo-mark {
+    position: relative;
+    width: 48px;  /* Scaled up from 32px for premium screen visibility */
+    height: 48px; /* Scaled up from 32px for premium screen visibility */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Core Wave Node: Dramatically expanded morphing paths for an undeniable 
+   transformation sequence from geometric circular container to fluid liquid wave.
+*/
+.veritas-fluid-node {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #00ffaa, #00d9ff);
+    box-shadow: 0 0 15px rgba(0, 255, 170, 0.4);
+    animation: veritas-wave-morph-large 5s infinite ease-in-out;
+}
+
+/* Secondary deep overlapping wave layer with opposite rotation mechanics */
+.veritas-fluid-node::before {
+    content: '';
+    position: absolute;
+    inset: 3px; /* Slightly thicker border ring line weight */
+    background: linear-gradient(135deg, rgba(12, 16, 34, 0.88), rgba(12, 16, 34, 0.98));
+    animation: veritas-wave-morph-large 5s infinite ease-in-out reverse;
+    z-index: 1;
+}
+
+/* Central glowing core node indicator pin */
+.veritas-fluid-node::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px; /* Enhanced crosshair dot weight */
+    height: 8px;
+    background: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 0 12px #00ffaa, 0 0 24px #00d9ff;
+    z-index: 2;
+    animation: veritas-dot-pulse-large 2.5s infinite ease-in-out;
+}
+
+/* Typography Title Strings */
+.veritas-title-string {
+    font-size: 1.6rem; /* Enhanced label font weight matching the new size scale */
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+}
+
+.veritas-core-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #00d9ff;
+    background: rgba(0, 217, 255, 0.08);
+    border: 1px solid rgba(0, 217, 255, 0.15);
+    padding: 3px 8px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: monospace;
+}
+
+/* =========================================================
+   MAXIMUM VELOCITY AMPLIFIED MORPHING KEYFRAMES
+   ========================================================= */
+@keyframes veritas-wave-morph-large {
+    0%, 100% {
+        /* Forms standard perfect master circle design */
+        border-radius: 50%;
+        transform: rotate(0deg) scale(0.95);
+        filter: drop-shadow(0 0 6px rgba(0, 255, 170, 0.5));
+    }
+    33% {
+        /* Pulls sharply into a deep-crested asymmetrical fluid wave */
+        border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+        transform: rotate(120deg) scale(1.05); /* Added slight breathing pulse expansion */
+        filter: drop-shadow(0 0 18px rgba(0, 217, 255, 0.8));
+    }
+    66% {
+        /* Alternates layout into a sharp liquid compression wave */
+        border-radius: 68% 32% 35% 65% / 60% 40% 60% 40%;
+        transform: rotate(240deg) scale(0.98);
+        filter: drop-shadow(0 0 20px rgba(0, 255, 170, 0.7));
+    }
+}
+
+@keyframes veritas-dot-pulse-large {
+    0%, 100% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.6; }
+    50% { transform: translate(-50%, -50%) scale(1.4); opacity: 1; }
+}
+
+/* --- NAVBAR PROFILE ICON --- */
+.nav-profile-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.7); /* Matches your normal nav links */
+    transition: color 0.2s ease, transform 0.2s ease;
+    text-decoration: none;
+}
+
+.nav-profile-icon .material-symbols-outlined {
+    font-size: 1.8rem; /* Makes it slightly larger than text */
+}
+
+.nav-profile-icon:hover {
+    color: #00d9ff; /* Veritas Neon Cyan glow on hover */
+    transform: scale(1.1); /* Slight pop effect */
+}
+
+/* Optional: If the active page is the Profile page, keep it lit up */
+.nav-profile-icon.active {
+    color: #00ffaa; /* Neon Green when you are ON the profile page */
+}
