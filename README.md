@@ -14,7 +14,6 @@
   <img src="https://raw.githubusercontent.com/your-username/your-repo-name/main/frontend/statics/images/dashboard-preview.png" width="100%" alt="Veritas Platform Interface" style="border-radius: 14px; border: 1px solid rgba(147, 51, 234, 0.15); box-shadow: 0 10px 30px rgba(147, 51, 234, 0.05);"/>
 </p>
 
-*💡 Note: Replace the URL link inside the image tag above with your real GitHub raw image link once uploaded to your repository paths (`frontend/statics/images/`).*
 
 ---
 
