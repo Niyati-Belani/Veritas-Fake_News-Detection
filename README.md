@@ -10,10 +10,34 @@
 
 ## 📸 System Interface Preview
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/your-username/your-repo-name/main/frontend/statics/images/dashboard-preview.png" width="100%" alt="Veritas Platform Interface" style="border-radius: 14px; border: 1px solid rgba(147, 51, 234, 0.15); box-shadow: 0 10px 30px rgba(147, 51, 234, 0.05);"/>
-</p>
+<table width="100%">
+  <tr>
+    <td width="50%" align="center">
+      <b>📊 Core Overview Dashboard</b>
+      <br/><br/>
+      <img src="YOUR_IMAGE_LINK_1" width="100%" alt="Dashboard Hub View" style="border-radius: 8px; border: 1px solid rgba(147, 51, 234, 0.15);"/>
+    </td>
+    <td width="50%" align="center">
+      <b>🔍 Verification Processing Terminal</b>
+      <br/><br/>
+      <img src="YOUR_IMAGE_LINK_2" width="100%" alt="Analysis Matrix View" style="border-radius: 8px; border: 1px solid rgba(147, 51, 234, 0.15);"/>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <b>🛡️ Source Clearing Panel</b>
+      <br/><br/>
+      <img src="YOUR_IMAGE_LINK_3" width="100%" alt="User Access Interface" style="border-radius: 8px; border: 1px solid rgba(147, 51, 234, 0.15);"/>
+    </td>
+    <td width="50%" align="center">
+      <b>🧾 Automated System Configuration</b>
+      <br/><br/>
+      <img src="YOUR_IMAGE_LINK_4" width="100%" alt="ERP Settings Terminal" style="border-radius: 8px; border: 1px solid rgba(147, 51, 234, 0.15);"/>
+    </td>
+  </tr>
+</table>
 
+*💡 Pro-Tip: Simply swap out `YOUR_IMAGE_LINK_1` through `YOUR_IMAGE_LINK_4` with the URLs generated from your drag-and-drop Issue hack or your raw GitHub assets folder!*
 
 ---
 
